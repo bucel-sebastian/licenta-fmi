@@ -1,0 +1,54 @@
+version: '3'
+services:
+  zookeeper:
+    image: zookeeper:latest
+    container_name: zookeeperr
+    ports:
+      - "2181:2181"
+    
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ADVERTISED_HOST_NAME=kafka-broker
+      - KAFKA_ADVERTISED_PORT=9092
+      - KAFKA_CREATE_TOPICS=test:1:1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CREATE_TOPICS="general:3:1,important:3:1,user-related:3:1,action:3:1,system:3:1"
+
+  producer:
+    build:
+      context: ./producer
+      dockerfile: Dockerfile
+    container_name: producer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+
+  consumer:
+    image: z0rg3d/kafka-consumer
+    container_name: consumer
+    ports:
+      - "8090:8090"
+    depends_on:
+      - kafka
+    
+  # flink-jobmanager:
+  #   image: flink:latest
+  #   container_name: flink-jobmanager
+  #   ports:
+  #     - "7071:7071"
+  #   command: jobmanager
+  #   depends_on:
+  #     - kafka
+
+  # flink-taskmanager:
+  #   image: flink:latest
+  #   container_name: flink-taskmanager
+  #   command: taskmanager
+  #   depends_on:
+  #     - flink-jobmanager

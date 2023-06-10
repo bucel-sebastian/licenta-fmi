@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flink-jobmanager
+spec:
+  ports:
+    - name: ui
+      port: 8081
+      targetPort: 8081
+  selector:
+    app: flink-jobmanager
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: flink-jobmanager
+spec:
+  serviceName: flink-jobmanager
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink-jobmanager
+  template:
+    metadata:
+      labels:
+        app: flink-jobmanager
+    spec:
+      containers:
+        - name: jobmanager
+          image: flink:latest
+          ports:
+            - containerPort: 8081
+              name: ui
+          env:
+            - name: JOB_MANAGER_RPC_ADDRESS
+              value: flink-jobmanager
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: flink-taskmanager
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flink-taskmanager
+  template:
+    metadata:
+      labels:
+        app: flink-taskmanager
+    spec:
+      containers:
+        - name: taskmanager
+          image: flink:latest
+          env:
+            - name: JOB_MANAGER_RPC_ADDRESS
+              value: flink-jobmanager

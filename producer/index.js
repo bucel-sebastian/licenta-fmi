@@ -7,6 +7,6 @@ const jsonParser = bodyParser.json();
 
 app.post("/api/send", jsonParser, constrollers.sendMessageToKafka);
 
-app.listen(8080, () => {
-  console.log(`Producatorul Kafka ruleaza pe port-ul 8080!`);
+app.listen(5000, () => {
+  console.log(`Producatorul Kafka ruleaza pe port-ul 5000!`);
 });

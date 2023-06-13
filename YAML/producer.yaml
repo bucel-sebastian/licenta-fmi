@@ -6,10 +6,10 @@ metadata:
   name: kafka-producer-service
   namespace: kafka
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 80
+      targetPort: 5000
   selector:
     app: kafka-producer
 ---
@@ -21,7 +21,7 @@ metadata:
   name: kafka-producer
   namespace: kafka
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: kafka-producer
@@ -34,4 +34,4 @@ spec:
         - name: producer
           image: z0rg3d/kafka-producer:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 5000

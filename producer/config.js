@@ -1,14 +1,21 @@
-import { Kafka } from "kafkajs";
+import { Kafka, logLevel } from "kafkajs";
 
 class KafkaConfig {
   constructor() {
     this.kafka = new Kafka({
       clientId: "kafka-broker",
-      brokers: ["kafka-service:9092"],
+      brokers: ["kafka-service.kafka.svc.cluster.local:9092"],
+      // logLevel: logLevel.DEBUG,
     });
-    this.producer = this.kafka.producer();
+
+    const { Partitioners } = require("kafkajs");
+
+    this.producer = this.kafka.producer({
+      createPartitioner: Partitioners.LegacyPartitioner,
+    });
     this.admin = this.kafka.admin();
     this.topics = this.getTopics();
+    console.log(this.topics);
   }
 
   async getTopics() {
@@ -16,7 +23,7 @@ class KafkaConfig {
       await this.admin.connect();
 
       const topics = await this.admin.listTopics();
-      return topics;
+      return await topics;
     } catch (error) {
       console.error(error);
     } finally {
@@ -28,11 +35,9 @@ class KafkaConfig {
     try {
       await this.producer.connect();
 
-      await messages.forEach(async (message) => {
-        await this.producer.send({
-          topic: message.notificationType,
-          messages: message,
-        });
+      await this.producer.send({
+        topic: topic,
+        messages: messages,
       });
     } catch (error) {
       console.error(error);

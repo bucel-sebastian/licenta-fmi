@@ -4,12 +4,12 @@ class KafkaConfig {
   constructor() {
     this.kafka = new Kafka({
       clientId: "kafka-broker",
-      brokers: ["localhost:9092"],
+      brokers: ["kafka-service.kafka.svc.cluster.local:9092"],
       connectionTimeout: 10000,
     });
     this.consumer = this.kafka.consumer({ groupId: "kafka-consumer-group" });
     this.admin = this.kafka.admin();
-    // this.topics = this.getTopics();
+    this.topics = this.getTopics();
   }
 
   async getTopics() {

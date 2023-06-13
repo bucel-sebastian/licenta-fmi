@@ -1,0 +1,23 @@
+{
+    "notificationType": [
+        "email",
+        "sms",
+        "push"
+    ],
+    "title": "",
+    "content": "",
+    "timestamp": "",
+    "sender": {
+        "userId": "",
+        "username": ""
+    },
+    "recipient": {
+        "userId": "",
+        "username": ""
+    },
+    "metadata": {
+        "source": "system",
+        "priority": "high",
+        "producer": ""
+    }
+}

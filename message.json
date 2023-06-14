@@ -18,6 +18,8 @@
     "metadata": {
         "source": "system",
         "priority": "high",
-        "producer": ""
+        "producer": "",
+        "kafka-broker": "",
+        "consumer": ""
     }
 }

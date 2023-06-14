@@ -1,48 +1,57 @@
-import { Kafka, logLevel } from "kafkajs";
+import { Kafka, logLevel, Partitioners } from "kafkajs";
 
 class KafkaConfig {
   constructor() {
     this.kafka = new Kafka({
       clientId: "kafka-broker",
-      brokers: ["kafka-service.kafka.svc.cluster.local:9092"],
+      brokers: ["kafka-service.kafka.svc.cluster.local:9092"], // Adresa serviciului "kafka-service" din Kubernetes
       // logLevel: logLevel.DEBUG,
     });
-
-    const { Partitioners } = require("kafkajs");
 
     this.producer = this.kafka.producer({
       createPartitioner: Partitioners.LegacyPartitioner,
     });
     this.admin = this.kafka.admin();
-    this.topics = this.getTopics();
-    console.log(this.topics);
+  }
+
+  async connect() {
+    await this.admin.connect();
+    await this.producer.connect();
+  }
+
+  async disconnect() {
+    await this.admin.disconnect();
+    await this.producer.disconnect();
+  }
+
+  async getDescribeCluster() {
+    try {
+      const describeCluster = await this.admin.describeCluster();
+      return describeCluster;
+    } catch (error) {
+      console.error("ERRROR - describeCluster - ", error);
+    }
   }
 
   async getTopics() {
     try {
-      await this.admin.connect();
-
       const topics = await this.admin.listTopics();
-      return await topics;
+      return topics;
     } catch (error) {
-      console.error(error);
-    } finally {
-      await this.admin.disconnect();
+      console.error("ERRROR - listTopics - ", error);
     }
   }
 
   async produce(topic, messages) {
     try {
-      await this.producer.connect();
-
       await this.producer.send({
         topic: topic,
         messages: messages,
       });
+
+      console.log("SUCCESS - Mesajul a fost trimis!");
     } catch (error) {
-      console.error(error);
-    } finally {
-      await this.producer.disconnect();
+      console.error("ERRROR - produce - ", error);
     }
   }
 }

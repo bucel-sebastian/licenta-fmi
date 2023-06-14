@@ -6,10 +6,10 @@ metadata:
   name: kafka-producer-service
   namespace: kafka
 spec:
-  type: NodePort
+ 
   ports:
     - port: 80
-      targetPort: 5000
+      targetPort: 8080
   selector:
     app: kafka-producer
 ---
@@ -34,4 +34,25 @@ spec:
         - name: producer
           image: z0rg3d/kafka-producer:latest
           ports:
-            - containerPort: 5000
+            - containerPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kafka-producer-ingress
+  labels:
+    name: kafka-producer-ingress
+  namespace: kafka
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: kafka-producer-service
+              port: 
+                number: 80
+

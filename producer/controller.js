@@ -32,7 +32,7 @@ const sendMessageToKafka = async (req, res) => {
 
     await kafkaConfig.disconnect();
   } catch (error) {
-    console.log(error);
+    console.log("ERROR - sendMessageToKafka - ", error);
   }
 };
 

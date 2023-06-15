@@ -7,27 +7,42 @@ class KafkaConfig {
       brokers: ["kafka-service.kafka.svc.cluster.local:9092"],
       connectionTimeout: 10000,
     });
-    this.consumer = this.kafka.consumer({ groupId: "kafka-consumer-group" });
+    this.consumer = this.kafka.consumer({
+      groupId: "kafka-consumer-group",
+    });
     this.admin = this.kafka.admin();
-    this.topics = this.getTopics();
+  }
+
+  async connect() {
+    await this.admin.connect();
+    await this.consumer.connect();
+  }
+
+  async disconnect() {
+    await this.admin.disconnect();
+    await this.consumer.disconnect();
+  }
+
+  async getDescribeCluster() {
+    try {
+      const describeCluster = await this.admin.describeCluster();
+      return describeCluster;
+    } catch (error) {
+      console.error("ERRROR - describeCluster - ", error);
+    }
   }
 
   async getTopics() {
     try {
-      await this.admin.connect();
-
       const topics = await this.admin.listTopics();
-      return await topics;
+      return topics;
     } catch (error) {
-      console.error(error);
-    } finally {
-      await this.admin.disconnect();
+      console.error("ERRROR - listTopics - ", error);
     }
   }
 
   async consume(topic, callback) {
     try {
-      await this.consumer.connect();
       await this.consumer.subscribe({ topic: topic, fromBeginning: true });
       await this.consumer.run({
         eachMessage: async ({ topic, partition, message }) => {

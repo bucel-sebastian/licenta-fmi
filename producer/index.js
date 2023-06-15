@@ -19,7 +19,7 @@ const getClusterDetails = async () => {
   console.log("Detaliile clusterului Kafka - ", describeCluster);
 };
 
-app.listen(5000, () => {
-  console.log(`Producatorul Kafka (${os.hostname()})  ruleaza!`);
+app.listen(8080, () => {
+  console.log(`Producatorul Kafka (${os.hostname()})  ruleaza pe portul 8080!`);
   getClusterDetails();
 });

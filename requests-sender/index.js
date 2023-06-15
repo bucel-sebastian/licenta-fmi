@@ -2,7 +2,7 @@ const axios = require("axios");
 
 async function sendPostRequest(data) {
   try {
-    const response = await axios.post("http://localhost:8080/api/send", data);
+    const response = await axios.post("http://localhost/api/send", data);
     console.log("Server response: ", response.data);
 
     if (producatori.includes(response.data.details.metadata.producer)) {
@@ -84,7 +84,7 @@ const jsonData = [
 let producatori = [];
 let counter = [];
 
-for (let i = 0; i < 500; i++) {
+for (let i = 0; i < 100; i++) {
   let randomNumber = Math.floor(Math.random() * 3);
   sendPostRequest(jsonData[randomNumber]);
 }

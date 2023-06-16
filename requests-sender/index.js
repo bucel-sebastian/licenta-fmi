@@ -84,7 +84,7 @@ const jsonData = [
 let producatori = [];
 let counter = [];
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 300; i++) {
   let randomNumber = Math.floor(Math.random() * 3);
   sendPostRequest(jsonData[randomNumber]);
 }

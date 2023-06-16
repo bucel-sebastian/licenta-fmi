@@ -25,12 +25,15 @@ const consumeMessages = async () => {
           );
         } else if (topic === "sms") {
           console.log(`INFO - Notificare noua - sms - ${message.content}`);
-          console.log(`INFO - Detalii notificare - sms - `, message.toString());
+          console.log(
+            `INFO - Detalii notificare - sms - `,
+            JSON.stringify(message, null, 2)
+          );
         } else if (topic === "push") {
           console.log(`INFO - Notificare noua - push - ${message.content}`);
           console.log(
             `INFO - Detalii notificare - push - `,
-            message.toString()
+            JSON.stringify(message, null, 2)
           );
         }
       });

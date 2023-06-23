@@ -23,16 +23,42 @@ const consumeMessages = async () => {
             `INFO - Detalii notificare - email - `,
             JSON.stringify(message, null, 2)
           );
-        } else if (topic === "sms") {
-          console.log(`INFO - Notificare noua - sms - ${message.content}`);
+        } else if (topic === "message") {
+          console.log(`INFO - Notificare noua - message - ${message.content}`);
           console.log(
-            `INFO - Detalii notificare - sms - `,
+            `INFO - Detalii notificare - message - `,
             JSON.stringify(message, null, 2)
           );
         } else if (topic === "push") {
           console.log(`INFO - Notificare noua - push - ${message.content}`);
           console.log(
             `INFO - Detalii notificare - push - `,
+            JSON.stringify(message, null, 2)
+          );
+        } else if (topic === "socialmedia") {
+          console.log(
+            `INFO - Notificare noua - socialmedia - ${message.content}`
+          );
+          console.log(
+            `INFO - Detalii notificare - socialmedia - `,
+            JSON.stringify(message, null, 2)
+          );
+        } else if (topic === "calendar") {
+          console.log(`INFO - Notificare noua - calendar - ${message.content}`);
+          console.log(
+            `INFO - Detalii notificare - calendar - `,
+            JSON.stringify(message, null, 2)
+          );
+        } else if (topic === "app") {
+          console.log(`INFO - Notificare noua - app - ${message.content}`);
+          console.log(
+            `INFO - Detalii notificare - app - `,
+            JSON.stringify(message, null, 2)
+          );
+        } else if (topic === "news") {
+          console.log(`INFO - Notificare noua - news - ${message.content}`);
+          console.log(
+            `INFO - Detalii notificare - news - `,
             JSON.stringify(message, null, 2)
           );
         }

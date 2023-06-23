@@ -6,6 +6,10 @@ class KafkaConfig {
       clientId: "kafka-broker",
       brokers: ["kafka-service.kafka.svc.cluster.local:9092"],
       connectionTimeout: 10000,
+      retry: {
+        initialRetryTime: 1000,
+        retries: 10,
+      },
     });
     this.consumer = this.kafka.consumer({
       groupId: "kafka-consumer-group",

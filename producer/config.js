@@ -4,8 +4,11 @@ class KafkaConfig {
   constructor() {
     this.kafka = new Kafka({
       clientId: "kafka-broker",
-      brokers: ["kafka-service.kafka.svc.cluster.local:9092"], // Adresa serviciului "kafka-service" din Kubernetes
-      // logLevel: logLevel.DEBUG,
+      brokers: ["kafka-service.kafka.svc.cluster.local:9092"],
+      retry: {
+        initialRetryTime: 1000,
+        retries: 10,
+      },
     });
 
     this.producer = this.kafka.producer({

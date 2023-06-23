@@ -20,61 +20,114 @@ async function sendPostRequest(data) {
 
 const jsonData = [
   {
-    notificationType: "sms",
-    title: "Test 1",
-    content: "Test mesaj catre topic Kafka 1",
+    notificationType: "email",
+
+    title: "Notificare de test - email",
+    content: "Acesta este un notificare de tip email",
     timestamp: "",
-    sender: {
-      userId: "001",
-      username: "z0rg3d",
+    source: {
+      type: "user",
+      metadata: {
+        userId: "user0001",
+      },
     },
     recipient: {
-      userId: "002",
-      username: "z0rg2d",
+      userId: "user0002",
     },
     metadata: {
-      source: "system",
-      priority: "high",
       producer: "",
       consumer: "",
     },
   },
   {
-    notificationType: "email",
-    title: "Test 2",
-    content: "Test mesaj catre topic Kafka 2",
+    notificationType: "message",
+
+    title: "Notificare de test - message",
+    content: "Acesta este un notificare de tip message",
     timestamp: "",
-    sender: {
-      userId: "001",
-      username: "z0rg3d",
+    source: {
+      type: "user",
+      metadata: {
+        userId: "user0001",
+      },
     },
     recipient: {
-      userId: "002",
-      username: "z0rg2d",
+      userId: "user0002",
     },
     metadata: {
-      source: "system",
-      priority: "high",
       producer: "",
       consumer: "",
     },
   },
   {
     notificationType: "push",
-    title: "Test 3",
-    content: "Test mesaj catre topic Kafka 3",
+
+    title: "Notificare de test - push",
+    content: "Acesta este un notificare de tip push",
     timestamp: "",
-    sender: {
-      userId: "001",
-      username: "z0rg3d",
+    source: {
+      type: "app",
+      metadata: {
+        appId: "app0001",
+      },
     },
     recipient: {
-      userId: "002",
-      username: "z0rg2d",
+      userId: "user0002",
     },
     metadata: {
-      source: "system",
-      priority: "high",
+      producer: "",
+      consumer: "",
+    },
+  },
+  {
+    notificationType: "socialmedia",
+
+    title: "Notificare de test - socialmedia",
+    content: "Acesta este un notificare de tip socialmedia",
+    timestamp: "",
+    source: {
+      type: "user",
+      metadata: {
+        userId: "user0001",
+      },
+    },
+    recipient: {
+      userId: "user0002",
+    },
+    metadata: {
+      producer: "",
+      consumer: "",
+    },
+  },
+  {
+    notificationType: "calendar",
+
+    title: "Notificare de test - calendar",
+    content: "Acesta este un notificare de tip calendar",
+    timestamp: "",
+    source: {
+      type: "system",
+    },
+    recipient: {
+      userId: "user0002",
+    },
+    metadata: {
+      producer: "",
+      consumer: "",
+    },
+  },
+  {
+    notificationType: "news",
+    title: "Notificare de test - news",
+    content: "Acesta este un notificare de tip news",
+    timestamp: "",
+    source: {
+      type: "system",
+    },
+    recipient: {
+      userId: "user0002",
+    },
+    metadata: {
       producer: "",
       consumer: "",
     },
@@ -84,7 +137,9 @@ const jsonData = [
 let producatori = [];
 let counter = [];
 
-for (let i = 0; i < 300; i++) {
-  let randomNumber = Math.floor(Math.random() * 3);
-  sendPostRequest(jsonData[randomNumber]);
+for (let i = 0; i < 10000; i++) {
+  let randomNumber = Math.floor(Math.random() * 6);
+  setTimeout(() => {
+    sendPostRequest(jsonData[randomNumber]);
+  }, i * 10);
 }

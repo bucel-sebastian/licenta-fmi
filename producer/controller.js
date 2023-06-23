@@ -11,7 +11,7 @@ const sendMessageToKafka = async (req, res) => {
     const topics = await kafkaConfig.getTopics();
 
     if (topics.includes(message.notificationType)) {
-      message.timestamp = new Date().getTime();
+      message.timestamp = new Date().toLocaleString();
       message.metadata.producer = os.hostname();
 
       const topic = message.notificationType;

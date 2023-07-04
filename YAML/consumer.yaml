@@ -39,7 +39,7 @@ spec:
             - containerPort: 8090
           resources:
             requests:
-              cpu: 100m
+              cpu: 150m
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -52,7 +52,7 @@ spec:
     kind: Deployment
     name: kafka-consumer
   minReplicas: 3
-  maxReplicas: 15
+  maxReplicas: 10
   metrics:
   - type: Resource
     resource:

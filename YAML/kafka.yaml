@@ -61,7 +61,7 @@ spec:
             - containerPort: 9092
           resources:
             requests:
-              cpu: 250m
+              cpu: 500m
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler

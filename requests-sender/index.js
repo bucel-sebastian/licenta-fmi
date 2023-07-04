@@ -13,7 +13,9 @@ async function sendPostRequest(data) {
       counter[response.data.details.metadata.producer] = 1;
     }
     console.log(counter);
+    console.log("Erori de conectare - ", counterErori);
   } catch (error) {
+    counterErori++;
     console.error("Eroare la trimitearea mesajului: ", error.message);
   }
 }
@@ -136,10 +138,11 @@ const jsonData = [
 
 let producatori = [];
 let counter = [];
+let counterErori = 0;
 
 for (let i = 0; i < 10000; i++) {
   let randomNumber = Math.floor(Math.random() * 6);
   setTimeout(() => {
     sendPostRequest(jsonData[randomNumber]);
-  }, i * 10);
+  }, i * 15);
 }
